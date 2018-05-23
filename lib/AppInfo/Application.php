@@ -178,7 +178,8 @@ class Application extends App {
 
 			$room = $event->getSubject();
 			$sessionId = $event->getArgument('sessionId');
-			$notifier->roomInCallChanged($room, true, [$sessionId]);
+			$flags = $event->getArgument('flags');
+			$notifier->roomInCallChanged($room, $flags, [$sessionId]);
 		});
 		$dispatcher->addListener(Room::class . '::postSessionLeaveCall', function(GenericEvent $event) {
 			/** @var BackendNotifier $notifier */
@@ -186,7 +187,7 @@ class Application extends App {
 
 			$room = $event->getSubject();
 			$sessionId = $event->getArgument('sessionId');
-			$notifier->roomInCallChanged($room, false, [$sessionId]);
+			$notifier->roomInCallChanged($room, 0, [$sessionId]);
 		});
 		$dispatcher->addListener(Room::class . '::postRemoveBySession', function(GenericEvent $event) {
 			/** @var BackendNotifier $notifier */
